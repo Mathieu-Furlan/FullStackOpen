@@ -2,29 +2,31 @@ import { useState } from 'react'
 
 const StatisticLine = (props) => {
   return (
-    <div>
-      {props.text}{props.value}
-    </div>
+    <tr>
+      <td>{props.text}</td><td>{props.value}</td>
+    </tr>
   )
 }
 
 const Statistics = ({bien, neutre, mauvais, clicked}) => {
   if(clicked > 0){
     return (
-      <div>
-        <StatisticLine text="good " value={bien}/>
-        <StatisticLine text="neutral " value={neutre}/>
-        <StatisticLine text="bad " value={mauvais}/>
-        <StatisticLine text="all " value={clicked}/>
-        <StatisticLine text="average " value={bien - mauvais / clicked}/>
-        <StatisticLine text="positive " value={((bien / clicked) * 100) + "%"}/>
-      </div>
+      <tbody>
+          <StatisticLine text="good " value={bien}/>
+          <StatisticLine text="neutral " value={neutre}/>
+          <StatisticLine text="bad " value={mauvais}/>
+          <StatisticLine text="all " value={clicked}/>
+          <StatisticLine text="average " value={(bien - mauvais) / clicked}/>
+          <StatisticLine text="positive " value={((bien / clicked) * 100) + "%"}/>
+      </tbody>
     )
   }
   return (
-    <div>
-      No feedback given
-    </div>
+    <tbody>
+      <tr>
+        <td>No feedback given</td>
+      </tr>
+    </tbody>
   )
 }
 
@@ -60,7 +62,9 @@ const App = () => {
         text = 'mauvais'
       />
       <h1>Statistics</h1>
-      <Statistics bien={good} neutre={neutral} mauvais={bad} clicked={good + neutral + bad} />
+      <table>
+        <Statistics bien={good} neutre={neutral} mauvais={bad} clicked={good + neutral + bad} />
+      </table>
     </div>
   )
 }

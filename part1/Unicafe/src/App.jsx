@@ -1,9 +1,21 @@
 import { useState } from 'react'
 
-const Statistics = (props) => {
+const Statistics = ({bien, neutre, mauvais, clicked, clicks}) => {
+  if(clicked > 0){
+    return (
+      <div>
+        <p>{clicks[0]}{bien}</p>
+        <p>{clicks[1]}{neutre}</p>
+        <p>{clicks[2]}{mauvais}</p>
+        <p>{clicks[3]}{clicked}</p>
+        <p>{clicks[4]}{bien - mauvais / clicked}</p>
+        <p>{clicks[5]}{((bien / clicked) * 100) + "%"}</p>
+      </div>
+    )
+  }
   return (
     <div>
-      {props.text}{props.stat}
+      No feedback given
     </div>
   )
 }
@@ -12,6 +24,14 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const clicks = [
+    'good ',
+    'neutral ',
+    'bad ',
+    'all ',
+    'average ',
+    'positive '
+  ]
 
   return (
     <div>
@@ -32,12 +52,7 @@ const App = () => {
         bad
       </button>
       <h1>Statistics</h1>
-      <Statistics text='good ' stat={good} />
-      <Statistics text='neutral ' stat={neutral} />
-      <Statistics text='bad ' stat={bad} />
-      <Statistics text='all ' stat={good + neutral + bad} />
-      <Statistics text='average ' stat={(good - bad) / (good + neutral + bad)} />
-      <Statistics text='positive ' stat={((good / (good + neutral + bad)) * 100)+ "%"} />
+      <Statistics bien={good} neutre={neutral} mauvais={bad} clicked={good + neutral + bad} clicks={clicks} />
     </div>
   )
 }

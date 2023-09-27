@@ -2,7 +2,7 @@ const Course = (props) => {
   const courses = props.course.parts
   return (
     <div>
-      <h1>Half Stack application development</h1>
+      <h2>{props.course.name}</h2>
         {courses.map(course => 
           <p key={course.id}>
             {course.name} {course.exercises}
@@ -13,7 +13,8 @@ const Course = (props) => {
 }
 
 const App = () => {
-  const course = {
+  const course = [
+    {
     id: 1,
     name: 'Half Stack application development',
     parts: [
@@ -38,12 +39,34 @@ const App = () => {
         id: 4
       }
     ]
+  },
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
   }
+  ]
 
   return (
     <div>
-      <Course course={course} />
-      <b>total of {course.parts.reduce((a, b) => a + b.exercises, 0)} exercises</b>
+      <h1>Web development curriculum</h1>
+      {course.map(cours =>
+      <div key={cours.id} >
+        <Course course={cours} />
+        <b>total of {cours.parts.reduce((a, b) => a + b.exercises, 0)} exercises</b>
+      </div>
+      )}
     </div>
   )
 }

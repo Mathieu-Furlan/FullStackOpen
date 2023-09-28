@@ -11,6 +11,12 @@ const App = () => {
     const nameObj = {
       name: newName
     }
+    for(let i = 0; i <= persons.length - 1; i++){
+      if(persons[i].name === nameObj.name){
+        window.alert(nameObj.name + " is already added to the phonebook")
+        return
+      }
+    }
     setPersons(persons.concat(nameObj))
     setNewName('')
   }

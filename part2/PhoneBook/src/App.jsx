@@ -22,8 +22,8 @@ const Formulaire = (props) => {
 const Affiche = (props) => {
   return (
     <div>
-      {props.showPersons.map(person => 
-          <div key={person.name}>{person.name} {person.number}</div>
+      {props.showPersons.map(person =>
+          <div key={person.name}>{person.name} {person.number} <button id={person.name} onClick={props.handleDelete}>delete</button></div>
       )}
     </div>
   )
@@ -93,6 +93,15 @@ const App = () => {
     setSearchWord(event.target.value)
     setShowAll(false)
   }
+  const handleDelete = (event) => {
+    if(window.confirm("Delete " + event.target.id + " ?")){
+      personService
+        .suppr(event.target.value)
+        .then(
+          setPersons(persons.filter(p => p.name !== event.target.id))
+        )
+    }
+  }
   return (
     <div>
       <h2>Phonebook</h2>
@@ -100,7 +109,7 @@ const App = () => {
       <h3>add a new</h3>
       <Formulaire addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h3>Numbers</h3>
-      <Affiche showPersons={showPersons} />
+      <Affiche showPersons={showPersons} handleDelete={handleDelete}/>
     </div>
   )
 }

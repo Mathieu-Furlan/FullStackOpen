@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const Formulaire = (props) => {
   return (
@@ -45,8 +45,8 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() => {
-    axios
-    .get('http://localhost:3001/persons')
+    personService
+    .getAll()
     .then(response => {
       setPersons(response.data)
     })
@@ -65,8 +65,8 @@ const App = () => {
       }
     }
 
-    axios
-      .post('http://localhost:3001/persons', nameObj)
+    personService
+      .create(nameObj)
       .then(response => {
         setPersons(persons.concat(response.data))
         setNewName('')

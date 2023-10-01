@@ -64,11 +64,16 @@ const App = () => {
         return
       }
     }
-    setPersons(persons.concat(nameObj))
-    setNewName('')
-    setNewNumber('')
-    setSearchWord('')
-    setShowAll(true)
+
+    axios
+      .post('http://localhost:3001/persons', nameObj)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+        setSearchWord('')
+        setShowAll(true)
+      })
   }
 
   const showPersons = searchWord === '' || showAll ? persons : persons.filter(person => {

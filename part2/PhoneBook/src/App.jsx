@@ -60,7 +60,18 @@ const App = () => {
     }
     for(let i = 0; i <= persons.length - 1; i++){
       if(persons[i].name === nameObj.name){
-        window.alert(nameObj.name + " is already added to the phonebook")
+        if(window.confirm(nameObj.name + " is already added to the phonebook, replace the old number with a new one?")){
+          setPersons(persons.filter(p => p.name !== nameObj.name))
+          personService
+            .upDate(persons[i].id, nameObj)
+            .then(response => {
+              setPersons(persons.filter(p => p.name !== nameObj.name).concat(response.data))
+              setNewName('')
+              setNewNumber('')
+              setSearchWord('')
+              setShowAll(true)
+            })
+        }
         return
       }
     }

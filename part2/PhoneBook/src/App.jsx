@@ -1,6 +1,18 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='success'>
+      {message}
+    </div>
+  )
+}
+
 const Formulaire = (props) => {
   return (
     <div>
@@ -43,6 +55,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -70,6 +83,10 @@ const App = () => {
               setNewNumber('')
               setSearchWord('')
               setShowAll(true)
+              setSuccessMessage('Updated ' + nameObj.name)
+              setTimeout(() => {
+                setSuccessMessage(null)
+              }, 5000)
             })
         }
         return
@@ -84,6 +101,10 @@ const App = () => {
         setNewNumber('')
         setSearchWord('')
         setShowAll(true)
+        setSuccessMessage('Added ' + nameObj.name)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
       })
   }
 
@@ -116,6 +137,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage} />
       <Filtre searchWord={searchWord} handleSearchChange={handleSearchChange} />
       <h3>add a new</h3>
       <Formulaire addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />

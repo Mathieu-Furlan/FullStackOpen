@@ -1,16 +1,22 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
 
-const Notification = ({ message }) => {
-  if (message === null) {
-    return null
+const Notification = ({ successMessage, errorMessage}) => {
+  if (successMessage !== null) {
+    return (
+      <div className='success'>
+        {successMessage}
+      </div>
+    )
   }
-
-  return (
-    <div className='success'>
-      {message}
-    </div>
-  )
+  if (errorMessage !== null) {
+    return (
+      <div className='error'>
+        {errorMessage}
+      </div>
+    )
+  }
+  return null
 }
 
 const Formulaire = (props) => {
@@ -35,7 +41,7 @@ const Affiche = (props) => {
   return (
     <div>
       {props.showPersons.map(person =>
-          <div key={person.name}>{person.name} {person.number} <button id={person.name} onClick={props.handleDelete}>delete</button></div>
+          <div key={person.name}>{person.name} {person.number} <button value={person.id} id={person.name} onClick={props.handleDelete}>delete</button></div>
       )}
     </div>
   )
@@ -56,6 +62,7 @@ const App = () => {
   const [searchWord, setSearchWord] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -86,6 +93,13 @@ const App = () => {
               setSuccessMessage('Updated ' + nameObj.name)
               setTimeout(() => {
                 setSuccessMessage(null)
+              }, 5000)
+            })
+            .catch(error => {
+              setPersons(persons.filter(p => p.name !== nameObj.name))
+              setErrorMessage('Information of ' + nameObj.name + ' has already been removed from server')
+              setTimeout(() => {
+                setErrorMessage(null)
               }, 5000)
             })
         }
@@ -137,7 +151,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification successMessage={successMessage} errorMessage={errorMessage}/>
       <Filtre searchWord={searchWord} handleSearchChange={handleSearchChange} />
       <h3>add a new</h3>
       <Formulaire addName={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />

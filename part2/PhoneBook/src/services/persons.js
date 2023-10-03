@@ -18,7 +18,7 @@ const upDate = (id, newObject) => {
 }
 
 export default { 
-  getAll: getAll, 
+  getAll: getAll,
   create: create,
   suppr: suppr,
   upDate: upDate
